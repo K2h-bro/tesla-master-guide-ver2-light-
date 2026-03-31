@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesla Master Guide — Model S·3·X·Y</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f5f7;--bg2:#ebebed;--surface:#ffffff;--surface2:#fafafa;--surface3:#f2f2f4;
+  --border:#e6e6ea;--border2:#d2d2d8;--border-active:#111111;
+  --text:#111111;--text2:#6b6b76;--text3:#a8a8b2;
+  --red:#e82127;--red-dim:rgba(232,33,39,.06);--red-light:rgba(232,33,39,.12);
+  --accent:#111111;--tag-bg:#f2f2f5;--tag-text:#6b6b76;
+  --new-bg:#e82127;--new-text:#fff;
+  --card-shadow:0 1px 2px rgba(0,0,0,.04),0 3px 12px rgba(0,0,0,.04);
+  --card-shadow-hover:0 2px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.07);
+  --blue:#3b6ef8;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR','Outfit',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── HERO ── */
+.hero{padding:80px 24px 56px;text-align:center;background:var(--surface);position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:160px;height:2px;background:var(--red)}
+.hero-label{display:inline-flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-size:10px;font-weight:600;color:var(--text3);letter-spacing:3.5px;text-transform:uppercase;margin-bottom:24px}
+.hero-label::before,.hero-label::after{content:'';display:block;width:24px;height:1px;background:var(--border2)}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(34px,5.5vw,60px);font-weight:800;line-height:1.05;letter-spacing:-2.5px;color:var(--text)}.hero h1 span{color:var(--red)}
+.hero-sub{margin-top:14px;font-size:14px;color:var(--text2);font-weight:400;letter-spacing:0}
+.hero-stats{display:inline-flex;gap:0;margin-top:36px;border-radius:12px;border:1px solid var(--border);background:var(--bg);overflow:hidden}
+.hero-stat{padding:16px 36px;text-align:center}
+.hero-stat-num{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;color:var(--text);line-height:1;letter-spacing:-1px}
+.hero-stat-label{font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:5px;font-weight:600}
+.hero-stat-div{width:1px;background:var(--border);margin:12px 0}
+
+/* ── FILTER ── */
+.filter-wrap{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 20px}
+.filter-wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:60px;background:linear-gradient(to right,transparent,rgba(255,255,255,.95) 70%);pointer-events:none;z-index:2;transition:opacity .3s;display:none}
+.filter-wrap.scrolled-end::after{opacity:0}
+.scroll-arrow{display:none;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:4;width:28px;height:28px;border-radius:50%;background:var(--surface);color:var(--text2);font-size:13px;border:1px solid var(--border);cursor:pointer;align-items:center;justify-content:center;transition:all .2s}
+@media(max-width:900px){.scroll-arrow{display:flex}.filter-wrap::after{display:block}}
+.filter-scroll{display:flex;gap:3px;overflow-x:auto;max-width:1100px;margin:0 auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:1px;flex-wrap:wrap}
+.filter-scroll::-webkit-scrollbar{display:none}
+@media(max-width:900px){.filter-scroll{flex-wrap:nowrap}}
+.filter-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--text2);font-size:11.5px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;letter-spacing:-.1px}
+.filter-btn svg{opacity:.6;flex-shrink:0;transition:opacity .15s}
+.filter-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border)}.filter-btn:hover svg{opacity:.9}
+.filter-btn.active{background:var(--text);border-color:var(--text);color:#fff;font-weight:600}.filter-btn.active svg{opacity:1;color:#fff}
+.filter-btn .count{font-size:10px;opacity:.45;margin-left:1px}
+
+/* ── SEARCH ── */
+.search-wrap{max-width:1100px;margin:0 auto;padding:16px 20px 0}.search-container{position:relative}
+.search-box{width:100%;padding:12px 16px 12px 44px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:all .2s;box-shadow:var(--card-shadow)}
+.search-box:focus{border-color:var(--border-active);box-shadow:0 0 0 3px rgba(17,17,17,.06),var(--card-shadow)}
+.search-box::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+
+/* ── MAIN ── */
+.main{max-width:1100px;margin:0 auto;padding:0 20px 80px}
+.category-section{margin-bottom:40px;animation:fadeUp .35s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:12px 0 0}
+.cat-icon-wrap{width:28px;height:28px;border-radius:7px;background:var(--red-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(232,33,39,.1)}
+.cat-icon-wrap svg{color:var(--red)}
+.cat-title{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;color:var(--text);letter-spacing:.8px;text-transform:uppercase}
+.cat-count{font-size:10px;color:var(--text3);background:var(--surface3);padding:2px 8px;border-radius:5px;font-weight:600;letter-spacing:.3px;border:1px solid var(--border)}
+.cat-line{flex:1;height:1px;background:var(--border)}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;cursor:pointer;transition:all .2s;position:relative}
+.card:hover{border-color:var(--border2);box-shadow:var(--card-shadow-hover);transform:translateY(-1px)}
+.card.expanded{border-color:var(--border-active);box-shadow:var(--card-shadow-hover)}
+.card-top{display:flex;align-items:flex-start;gap:10px}
+.card-num{font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;color:var(--text3);background:var(--surface3);min-width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border)}
+.card-title{font-size:13.5px;font-weight:600;line-height:1.5;flex:1;color:var(--text);letter-spacing:-.2px;font-family:'Noto Sans KR',sans-serif}
+.card-new{font-size:8px;background:var(--red);color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;letter-spacing:.8px;flex-shrink:0;text-transform:uppercase;align-self:flex-start;margin-top:2px}
+.card-expand-icon{color:var(--text3);font-size:11px;transition:transform .25s;flex-shrink:0;margin-top:4px;width:20px;height:20px;border-radius:5px;background:var(--surface3);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.card.expanded .card-expand-icon{transform:rotate(180deg);background:var(--text);border-color:var(--text);color:#fff}
+.card-compat{font-size:11px;color:var(--text3);margin-top:7px;display:flex;align-items:center;gap:3px;font-weight:400}
+.card-compat.limited{color:var(--red);font-weight:500}
+.card-detail{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}.card.expanded .card-detail{display:block}
+.card-how{font-size:13px;color:var(--text2);line-height:1.95}.card-how strong{color:var(--text);font-weight:600}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:10px;padding:2px 8px;border-radius:5px;font-weight:500;background:var(--tag-bg);color:var(--tag-text);border:1px solid var(--border)}
+.tag-screen{background:rgba(59,110,248,.06);color:#3b6ef8;border-color:rgba(59,110,248,.15)}
+.tag-app{background:rgba(22,163,74,.06);color:#16a34a;border-color:rgba(22,163,74,.15)}
+.tag-voice{background:rgba(217,119,6,.06);color:#d97706;border-color:rgba(217,119,6,.15)}
+.tag-physical{background:rgba(124,58,237,.06);color:#7c3aed;border-color:rgba(124,58,237,.15)}
+.tag-easter{background:rgba(219,39,119,.06);color:#db2777;border-color:rgba(219,39,119,.15)}
+.tag-juniper{background:var(--red-dim);color:var(--red);border-color:rgba(232,33,39,.15)}
+
+/* ── ADMIN ── */
+.admin-toggle{position:fixed;bottom:24px;right:24px;z-index:200;width:40px;height:40px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--text3);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:.4}
+.admin-toggle:hover{opacity:1;border-color:var(--border2);color:var(--text2)}.admin-toggle.active{background:var(--red);color:#fff;border-color:var(--red);opacity:1;box-shadow:0 0 20px var(--red-glow)}
+.admin-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.admin-overlay.open{display:flex;justify-content:center;align-items:flex-start;padding:30px 16px;overflow-y:auto}
+.admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:100%;max-width:600px;padding:24px;position:relative;animation:slideUp .25s ease;margin-bottom:40px}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.admin-panel h2{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.admin-panel .subtitle{color:var(--text2);font-size:13px;margin-bottom:16px}
+.admin-close{position:absolute;top:14px;right:14px;background:var(--surface2);border:1px solid var(--border);color:var(--text3);font-size:16px;cursor:pointer;padding:4px;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center}.admin-close:hover{color:var(--text);border-color:var(--border2)}
+.admin-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.admin-tab{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+.admin-tab:hover{background:var(--surface2)}.admin-tab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.form-group{margin-bottom:12px}.form-label{display:block;font-size:10px;font-weight:600;color:var(--text3);margin-bottom:5px;letter-spacing:.8px;text-transform:uppercase}
+.form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-dim)}.form-textarea{min-height:70px;resize:vertical;line-height:1.6}.form-select{appearance:none;cursor:pointer}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.checkbox-item{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:11px;color:var(--text2);transition:all .15s;user-select:none}
+.checkbox-item:hover{border-color:var(--border2)}.checkbox-item.checked{background:var(--red-dim);border-color:var(--red);color:var(--red)}.checkbox-item input{display:none}
+.btn-row{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}.btn{padding:8px 16px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 0 12px var(--red-glow)}.btn-primary:hover{background:#c41a1f}.btn-secondary{background:var(--surface2);color:var(--text2);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--border2);color:var(--text)}
+.btn-danger{background:var(--red-dim);color:var(--red);border:1px solid rgba(232,33,39,.2)}.btn-danger:hover{background:var(--red-light)}
+.admin-list{max-height:45vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.admin-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;border:1px solid var(--border);margin-bottom:4px;background:var(--surface2)}
+.admin-item-title{flex:1;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+.admin-item-cat{font-size:10px;color:var(--text2);background:var(--surface3);padding:2px 7px;border-radius:5px}
+.admin-item-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.admin-item-btn:hover{border-color:var(--border2);color:var(--text)}.admin-item-btn.delete:hover{border-color:var(--red);color:var(--red);background:var(--red-dim)}
+.admin-search{width:100%;padding:8px 12px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;margin-bottom:8px;outline:none;font-family:'Noto Sans KR',sans-serif}.admin-search:focus{border-color:var(--red)}
+.toast{position:fixed;bottom:80px;right:24px;z-index:400;padding:10px 18px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:500;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.4)}.toast.show{opacity:1;transform:translateY(0)}
+.export-area{margin-top:10px}.export-area textarea{width:100%;height:100px;padding:8px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:11px;font-family:monospace;resize:vertical;outline:none}.export-area textarea:focus{border-color:var(--red)}
+.footer{text-align:center;padding:48px 20px;border-top:1px solid var(--border);color:var(--text3);font-size:11px;background:var(--bg);letter-spacing:.1px}
+.new-toggle{display:flex;align-items:center;gap:6px;margin-bottom:3px}.new-toggle label{font-size:12px;color:var(--text2);cursor:pointer}
+.new-toggle input[type=checkbox]{accent-color:var(--red);cursor:pointer}
+.sort-wrap{display:flex;align-items:center;gap:6px;max-width:1100px;margin:0 auto 12px;padding:0 20px;flex-wrap:wrap}
+.sort-label{font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase}
+.sort-btn{padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .15s}
+.sort-btn:hover{border-color:var(--border2);color:var(--text);background:var(--surface2)}.sort-btn.active{background:var(--surface2);border-color:var(--border2);color:var(--text);font-weight:600}
+.ota-banner{max-width:1100px;margin:0 auto 14px;padding:0 20px}
+.ota-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .2s}
+.ota-card:hover{border-color:var(--border2);background:var(--surface2)}
+.ota-card-header{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}
+.ota-card-header .ota-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;box-shadow:0 0 6px var(--red-glow)}
+.ota-card-body{display:none;margin-top:12px;max-height:200px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.ota-card.open .ota-card-body{display:block}
+.ota-card .expand-hint{color:var(--text3);font-size:10px;margin-left:auto}
+.ota-entry{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;align-items:flex-start}
+.ota-entry:last-child{border-bottom:none}
+.ota-date{color:var(--text3);flex-shrink:0;min-width:65px;font-family:'DM Sans',sans-serif;font-weight:500}
+.ota-type{padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;flex-shrink:0;letter-spacing:.3px}
+.ota-type.added{background:rgba(34,197,94,.1);color:#34c970;border:1px solid rgba(34,197,94,.2)}.ota-type.modified{background:rgba(245,158,11,.1);color:#f5a623;border:1px solid rgba(245,158,11,.2)}.ota-type.removed{background:var(--red-dim);color:var(--red);border:1px solid rgba(232,33,39,.2)}
+.ota-desc{color:var(--text2);flex:1;line-height:1.5}
+@media(max-width:600px){.cards-grid{grid-template-columns:1fr}.hero{padding:52px 20px 36px}}
+</style>
+</head>
+<body>
+<div class="hero">
+<div class="hero-label">Model S · 3 · X · Y</div>
+<h1>Tesla <span>Master</span> Guide</h1>
+<p class="hero-sub">오너들이 몰래 쓰는 꿀기능 모음집 🍯</p>
+<div class="hero-stats">
+<div class="hero-stat"><div class="hero-stat-num" id="totalCount">0</div><div class="hero-stat-label">Features</div></div>
+<div class="hero-stat-div"></div>
+<div class="hero-stat"><div class="hero-stat-num">9</div><div class="hero-stat-label">Categories</div></div>
+</div>
+</div>
+<div class="filter-wrap" id="filterWrap"><div class="filter-scroll" id="filterTabs"></div><button class="scroll-arrow" id="scrollArrow"><span>›</span></button></div>
+<div class="search-wrap"><div class="search-container"><span class="search-icon">⌕</span><input class="search-box" type="text" placeholder="기능 검색" id="searchInput"></div></div>
+<div class="ota-banner" id="otaBanner"></div>
+<div class="sort-wrap">
+<span class="sort-label">정렬</span>
+<button class="sort-btn active" data-sort="default">기본순</button>
+<button class="sort-btn" data-sort="new">NEW 먼저</button>
+<button class="sort-btn" data-sort="compat">호환 제한</button>
+<button class="sort-btn" data-sort="alpha">ㄱㄴㄷ순</button>
+</div>
+<div class="main" id="mainContent"></div>
+<div class="footer">Tesla Master Guide — Model S·3·X·Y&nbsp;&nbsp;·&nbsp;&nbsp;All features verified<br><span style="margin-top:4px;display:block">소프트웨어 버전 및 모델에 따라 일부 기능이 다를 수 있습니다</span></div>
+<button class="admin-toggle" id="adminToggle" title="관리자">⚙</button>
+<div class="admin-overlay" id="adminOverlay">
+<div class="admin-panel">
+<button class="admin-close" id="adminClose">✕</button>
+<h2>관리자 패널</h2>
+<div class="subtitle">기능 추가 · 수정 · 삭제 · 내보내기</div>
+<div class="admin-tabs" id="adminTabs">
+<button class="admin-tab active" data-tab="add">추가</button>
+<button class="admin-tab" data-tab="list">목록 관리</button>
+<button class="admin-tab" data-tab="ota">OTA 로그</button>
+<button class="admin-tab" data-tab="export">내보내기</button>
+</div>
+<div id="adminContent"></div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+
+<script>
+const ICONS={
+all:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>`,
+display:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="14" height="10" rx="2"/><path d="M5 14h6M8 12v2"/></svg>`,
+climate:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1v14M4 5l4 3 4-3M4 11l4-3 4 3"/></svg>`,
+driving:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="4.5" cy="11.5" r="1.5"/><circle cx="11.5" cy="11.5" r="1.5"/><path d="M3 11.5H2V8l2-4h6l2 4v3.5H13M3 11.5h2.5M13 11.5h-1.5M6 4.5l-.5 3h5l-.5-3"/></svg>`,
+nav:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1l5.5 11.5L8 10.5 2.5 12.5z"/></svg>`,
+app:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="1" width="8" height="14" rx="2"/><path d="M7 12.5h2"/></svg>`,
+charge:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="13" rx="2"/><path d="M9 2V1M7 2V1"/><path d="M6 8.5l2-3v3l2-3"/></svg>`,
+comfort:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 9V6a3 3 0 016 0v3"/><path d="M9 9V6a3 3 0 016 0v3"/><path d="M1 9h14v2a2 2 0 01-2 2H3a2 2 0 01-2-2V9z"/></svg>`,
+fun:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.5"/><path d="M5.5 9.5s.8 1.5 2.5 1.5 2.5-1.5 2.5-1.5"/><circle cx="5.8" cy="6.8" r=".6" fill="currentColor" stroke="none"/><circle cx="10.2" cy="6.8" r=".6" fill="currentColor" stroke="none"/></svg>`,
+safety:`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5L2 4v4.5C2 12 5 14.5 8 15c3-0.5 6-3 6-6.5V4L8 1.5z"/><path d="M5.5 8l2 2 3-3"/></svg>`
+};
+const CATEGORIES=[
+{id:"all",name:"전체",icon:ICONS.all},
+{id:"display",name:"디스플레이",icon:ICONS.display},
+{id:"climate",name:"공조·온도",icon:ICONS.climate},
+{id:"driving",name:"주행·조작",icon:ICONS.driving},
+{id:"nav",name:"내비·경로",icon:ICONS.nav},
+{id:"app",name:"모바일 앱",icon:ICONS.app},
+{id:"charge",name:"충전·배터리",icon:ICONS.charge},
+{id:"comfort",name:"편의·수납",icon:ICONS.comfort},
+{id:"fun",name:"이스터에그",icon:ICONS.fun},
+{id:"safety",name:"안전·관리",icon:ICONS.safety}
+];
+const DEFAULT_FEATURES=[
+{id:"f1",cat:"display",title:"유튜브 화면 전송 (폰→차량)",how:"① 스마트폰에서 유튜브 앱을 열고 원하는 영상을 재생합니다.<br>② 영상 아래 <strong>공유 버튼</strong>(화살표 아이콘)을 탭합니다.<br>③ 공유 메뉴에서 <strong>'더보기'</strong>를 탭 → 앱 목록에서 <strong>'Tesla'</strong>를 선택합니다.<br>④ 차량 디스플레이에 자동으로 영상이 나타나며, 차량 화면에서 재생/일시정지가 가능합니다.<br><strong>💡 TIP:</strong> 차량이 P(주차) 상태일 때만 영상이 재생됩니다. 주행 중에는 음성만 출력됩니다.",tags:["screen"],compat:"전 모델"},
+{id:"f2",cat:"display",title:"미디어 오버레이 (지도 위 미디어)",how:"① 화면 하단에 현재 재생 중인 <strong>미디어 패널</strong>(노래 제목이 보이는 영역)을 확인합니다.<br>② 미디어 패널의 <strong>하단 가장자리를 손가락으로 아래 방향</strong>으로 살짝 드래그합니다.<br>③ 미디어 패널이 축소되면서 지도 위에 <strong>작은 오버레이</strong>로 떠 있게 됩니다.<br>④ 이 상태에서 지도를 보면서 동시에 온도·볼륨 조절이 가능합니다.<br><strong>💡 TIP:</strong> 오버레이를 다시 위로 드래그하면 원래 크기로 복원됩니다.",tags:["screen"],compat:"전 모델"},
+{id:"f3",cat:"display",title:"디스플레이 앱 정리 (커스텀 독)",how:"① 화면 하단의 <strong>앱 바</strong>(아이콘이 나열된 가로 줄)를 확인합니다.<br>② 이동하고 싶은 앱 아이콘을 <strong>2초 이상 길게 누르면</strong> 편집 모드에 진입합니다.<br>③ 아이콘을 <strong>드래그하여 원하는 위치로 이동</strong>하거나, 불필요한 앱은 제거할 수 있습니다.<br>④ 빈 자리에는 다른 앱을 추가할 수도 있습니다.<br><strong>💡 TIP:</strong> 자주 쓰는 앱(네비, 카메라, 음악)을 왼쪽에 배치하면 운전 중 접근이 편합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f4",cat:"display",title:"2열 디스플레이 활용",how:"① 뒷좌석 중앙에 설치된 <strong>8인치 터치 디스플레이</strong>를 확인합니다.<br>② 화면을 터치하면 <strong>유튜브, 넷플릭스, 게임</strong> 등을 독립적으로 이용할 수 있습니다.<br>③ 2열 디스플레이 하단의 <strong>공조 아이콘</strong>을 탭하면 뒷좌석 온도를 직접 조절할 수 있습니다.<br>④ 볼륨도 2열 전용으로 조절 가능하여 1열과 독립적으로 사용됩니다.<br><strong>💡 TIP:</strong> 뒷좌석 승객이 전면 내비게이션이나 1열 미디어에는 영향을 주지 않습니다.",tags:["screen","juniper"],isNew:true,compat:"3 하이랜드 · Y 주니퍼"},
+{id:"f5",cat:"display",title:"속도제한 아이콘 탭으로 즉시 감속",how:"① <strong>오토파일럿이 활성화된 상태</strong>에서 주행합니다.<br>② 화면 좌측에 현재 도로의 <strong>속도 제한 표지판 아이콘</strong>(숫자가 적힌 원형 표지)이 표시됩니다.<br>③ 이 <strong>속도 제한 아이콘을 한 번 탭</strong>하면 차량이 즉시 해당 제한속도로 부드럽게 감속합니다.<br><strong>💡 TIP:</strong> 스크롤 휠로 속도를 하나씩 조절하는 것보다 훨씬 빠르고 정확합니다. 학교 앞, 주택가 진입 시 특히 유용합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f6",cat:"display",title:"앰비언트 라이트 색상 커스텀",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 조명</strong> 메뉴로 이동합니다.<br>③ <strong>'앰비언트 라이트'</strong> 항목에서 원하는 색상을 탭하여 선택합니다.<br>④ 밝기 슬라이더를 좌우로 움직여 밝기를 조절합니다.<br><strong>💡 TIP:</strong> 야간 주행 시 너무 밝은 색상은 시야에 방해가 될 수 있으니 적당한 밝기로 설정하세요.",tags:["screen","juniper"],isNew:true,compat:"3 하이랜드 · Y 주니퍼 · S · X"},
+{id:"f7",cat:"climate",title:"공조 원터치 (온도 길게 + 스와이프)",how:"① 화면 <strong>하단 바 왼쪽</strong>에 현재 온도가 숫자로 표시되어 있습니다.<br>② 이 <strong>온도 숫자를 2초 이상 길게 누르면</strong> 공조(에어컨/히터)가 ON/OFF 됩니다.<br>③ 온도 숫자 위에서 <strong>손가락을 좌우로 스와이프</strong>하면 0.5°C 단위로 온도를 미세 조절할 수 있습니다.<br>④ 같은 방식으로 <strong>우측 하단 스피커 아이콘</strong>도 길게 누르면 음소거, 좌우 스와이프로 볼륨 조절이 가능합니다.<br><strong>💡 TIP:</strong> 공조 패널을 열지 않고도 빠르게 온도 조절이 가능한 숨겨진 제스처입니다.",tags:["screen"],compat:"전 모델"},
+{id:"f8",cat:"climate",title:"공조 바람 스윙 모드",how:"① 화면 하단 바의 <strong>온도 숫자를 탭</strong>하여 공조 패널을 엽니다.<br>② 공조 패널 안의 <strong>바람 방향 설정 영역</strong>에서 <strong>스윙 아이콘(↔ 화살표 모양)</strong>을 탭합니다.<br>③ 활성화되면 차량 통풍구가 <strong>자동으로 좌우로 천천히 회전</strong>하며 넓은 범위에 바람을 보냅니다.<br><strong>💡 TIP:</strong> 여름철 빠른 실내 냉방이나 캠핑 모드에서 선풍기 대용으로 효과적입니다.",tags:["screen","juniper"],isNew:true,compat:"Y 주니퍼"},
+{id:"f9",cat:"climate",title:"성에 제거 단독 모드",how:"① 화면 하단 바의 <strong>온도 숫자를 탭</strong>하여 공조 패널을 엽니다.<br>② 공조 패널 하단에 <strong>전면 성에 제거(앞유리 아이콘)</strong>와 <strong>후면 성에 제거(뒷유리 아이콘)</strong> 버튼이 있습니다.<br>③ 원하는 버튼을 탭하면 <strong>해당 유리의 성에만 독립적으로 제거</strong>됩니다.<br><strong>💡 TIP:</strong> 전체 공조를 켜지 않아도 성에 제거만 단독 실행됩니다. 겨울 아침 출발 전 미리 앱에서 원격 실행도 가능합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f10",cat:"climate",title:"온도 유지(Dog) / 캠핑 모드",how:"① 화면 하단 바의 <strong>온도 숫자를 탭</strong>하여 공조 패널을 엽니다.<br>② 공조 패널 하단에 <strong>강아지 아이콘(Dog Mode)</strong>과 <strong>텐트 아이콘(캠핑 모드)</strong>이 있습니다.<br>③ <strong>Dog Mode:</strong> 활성화하면 차량 화면에 '반려동물이 안전합니다. 실내 온도 OO°C' 메시지가 크게 표시됩니다. 외부인이 걱정하지 않도록 안내합니다.<br>④ <strong>캠핑 모드:</strong> 활성화하면 공조·음악·USB 전원·조명이 모두 유지됩니다. 차박 시 필수.<br><strong>💡 TIP:</strong> Dog Mode 중에도 배터리 잔량이 20% 이하로 떨어지면 앱으로 경고 알림이 옵니다.",tags:["screen"],compat:"전 모델"},
+{id:"f11",cat:"climate",title:"예약 공조 (출발 전 쾌적)",how:"① 화면 하단 바의 <strong>온도 숫자를 탭</strong>하여 공조 패널을 엽니다.<br>② 공조 패널 하단의 <strong>'예약' 버튼(시계 아이콘)</strong>을 탭합니다.<br>③ <strong>출발 시간</strong>을 설정하면 해당 시간에 맞춰 미리 실내 온도를 조절해 둡니다.<br>④ 모바일 앱에서도 <strong>공조 탭 > 예약</strong>에서 동일하게 설정 가능합니다.<br><strong>💡 TIP:</strong> 겨울에는 출발 30분 전, 여름에는 15분 전 정도로 설정하면 탑승 시 쾌적합니다.",tags:["screen","app"],compat:"전 모델"},
+{id:"f12",cat:"climate",title:"바이오웨폰 방어 모드 (HEPA 공기 정화)",how:"① 화면 하단 바의 <strong>온도 숫자를 탭</strong>하여 공조 패널을 엽니다.<br>② 공조 패널 안에서 <strong>바이오해저드 아이콘(☣️ 모양)</strong>을 찾아 탭합니다.<br>③ 활성화되면 <strong>HEPA 필터가 최대 출력으로 작동</strong>하며 실내 공기를 정화합니다.<br><strong>💡 TIP:</strong> 미세먼지가 심한 날이나 터널 통과 시 특히 유용합니다. Model 3는 HEPA 필터 공간 부족으로 이 기능을 지원하지 않습니다.",tags:["screen"],compat:"S · X · Y (3 미지원)"},
+{id:"f13",cat:"driving",title:"왼쪽 토글 길게 눌러 기능 할당",how:"① 먼저 할당할 기능을 설정합니다: 화면에서 <strong>차량 아이콘(🚗) > 컨트롤 > 좌측 스크롤 휠 버튼</strong>으로 이동합니다.<br>② 원하는 기능(예: 와이퍼, 대시캠 저장, 음성 명령 등)을 선택하여 지정합니다.<br>③ 이후 주행 중 스티어링 왼쪽 <strong>스크롤 휠 버튼을 길게 누르면</strong> 지정한 기능이 즉시 실행됩니다.<br><strong>💡 TIP:</strong> 비 올 때를 대비해 '와이퍼'나 사고 상황을 위한 '대시캠 즉시 저장'을 추천합니다.",tags:["physical"],compat:"전 모델"},
+{id:"f14",cat:"driving",title:"핸들 스크롤 버튼 → 큰 버튼 변환",how:"① 주행 중 화면 하단 바에 작은 아이콘들이 나열되어 있습니다.<br>② 핸들의 <strong>좌측 또는 우측 스크롤 휠을 돌리면</strong> 하단 바의 아이콘이 자동으로 <strong>큰 버튼 UI</strong>로 변환됩니다.<br>③ 큰 버튼 상태에서 터치하면 정확한 조작이 가능합니다.<br><strong>💡 TIP:</strong> 주행 중 작은 아이콘이 누르기 어려울 때 스크롤 휠을 한 번 돌려서 큰 버튼으로 전환 후 터치하세요.",tags:["physical"],compat:"전 모델"},
+{id:"f15",cat:"driving",title:"음성 명령 만능 활용",how:"① 핸들 <strong>우측 스크롤 휠 버튼</strong>을 한 번 누르면 음성 명령이 활성화됩니다. (삐 소리 후 말하기)<br>② 사용 가능한 명령 예시:<br>• <strong>'에어컨 23도'</strong> → 공조 온도 즉시 변경<br>• <strong>'집으로 안내해줘'</strong> → 내비게이션 자동 설정<br>• <strong>'와이퍼 켜줘'</strong> → 와이퍼 작동<br>• <strong>'창문 열어줘/닫아줘'</strong> → 전체 창문 제어<br>• <strong>'시트 히터 켜줘'</strong> → 좌석 열선 ON<br>• <strong>'○○으로 전화해줘'</strong> → 전화 발신<br><strong>💡 TIP:</strong> 화면 터치 없이 거의 모든 기능을 제어할 수 있어, 주행 중 가장 안전한 조작 방법입니다.",tags:["voice"],compat:"전 모델"},
+{id:"f16",cat:"driving",title:"기어 전환 시 브레이크 불필요",how:"① 차량이 <strong>약 8km/h 이하</strong>로 느리게 움직이고 있을 때 해당됩니다.<br>② 이 속도 범위에서는 <strong>브레이크 페달을 밟지 않고도</strong> 기어를 D(전진)에서 R(후진)으로, 또는 R에서 D로 전환할 수 있습니다.<br>③ 화면 상단의 기어 표시를 탭하거나, 주니퍼/하이랜드 이전 모델은 기어 스톡을 조작합니다.<br><strong>💡 TIP:</strong> 좁은 주차장에서 전후진을 반복할 때 매우 편리합니다. 8km/h를 초과하면 안전을 위해 브레이크가 필요합니다.",tags:["physical"],compat:"전 모델"},
+{id:"f17",cat:"driving",title:"Joe Mode — 알림음 50% 줄이기",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 안전</strong> 메뉴로 이동합니다.<br>③ <strong>'Joe Mode'</strong> 토글을 ON으로 전환합니다.<br>④ 활성화하면 방향지시등 소리, 오토파일럿 경고음 등 <strong>각종 알림음이 약 50% 작아집니다</strong>.<br><strong>💡 TIP:</strong> 뒷좌석에서 아이가 자고 있을 때 특히 유용합니다. 안전 관련 중요 경고는 여전히 정상 볼륨으로 울립니다.",tags:["screen"],compat:"전 모델"},
+{id:"f18",cat:"driving",title:"오토파일럿 속도 자동 설정",how:"① 주행 중 <strong>핸들 우측의 오토파일럿 스톡(레버)</strong>을 확인합니다.<br>② 스톡을 <strong>아래로 길게 당기면(1초 이상)</strong> → 현재 도로 <strong>제한속도</strong>에 맞춰 오토파일럿이 설정됩니다.<br>③ 스톡을 <strong>아래로 짧게 당기면</strong> → 현재 <strong>주행 중인 속도</strong>로 오토파일럿이 설정됩니다.<br><strong>💡 TIP:</strong> 고속도로 합류 후 길게 당겨서 제한속도로 맞추면 편리합니다. 이후 스크롤 휠로 속도를 미세 조절하세요.",tags:["physical"],compat:"전 모델"},
+{id:"f19",cat:"driving",title:"회생 제동 강도 선택 (원페달)",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 페달 및 조향</strong> 메뉴로 이동합니다.<br>③ <strong>'회생 제동'</strong> 항목에서 <strong>'표준'</strong>을 선택합니다.<br>④ 표준으로 설정하면 가속 페달에서 발을 떼는 것만으로 차가 상당히 감속되어 <strong>원 페달 드라이빙</strong>이 가능합니다.<br><strong>💡 TIP:</strong> 처음에는 감속이 강하게 느껴질 수 있지만, 익숙해지면 브레이크 사용이 크게 줄어 전비도 좋아집니다.",tags:["screen"],compat:"전 모델"},
+{id:"f19b",cat:"driving",title:"사각지대 카메라 위치 이동 (드래그)",how:"① 주행 중 <strong>깜빡이(방향지시등)를 켜면</strong> 해당 방향의 사이드 카메라 영상이 화면에 자동으로 표시됩니다.<br>② 이 카메라 영상을 <strong>2초 이상 길게 터치</strong>하면 이동 가능한 영역이 음영으로 표시됩니다.<br>③ 영상을 <strong>드래그하여 원하는 위치로 이동</strong>합니다.<br>④ 기능 ON/OFF: <strong>차량 아이콘(🚗) > 컨트롤 > 오토파일럿 > 자동 사각지대 카메라</strong>에서 설정 가능합니다.<br><strong>💡 TIP:</strong> 핸들이나 손에 가려지지 않는 화면 상단 모서리로 이동시키면 차선 변경 시 편리합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f20",cat:"driving",title:"Chill 모드로 전비 절약",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 페달 및 조향 > 가속</strong> 메뉴로 이동합니다.<br>③ <strong>'Chill'</strong>을 선택합니다. (기본값은 'Standard')<br>④ Chill 모드에서는 <strong>가속이 부드럽고 완만해져</strong> 전비(전력 효율)가 향상됩니다.<br><strong>💡 TIP:</strong> 시내 주행이나 비·눈길에서 급가속을 방지하여 안전하고 효율적입니다.",tags:["screen"],compat:"전 모델"},
+{id:"f21",cat:"nav",title:"순정 네비 — 집/회사 자동 안내",how:"① 화면에서 <strong>네비게이션 검색창</strong>(상단 돋보기 아이콘 영역)을 탭합니다.<br>② 검색창이 열리면 <strong>아래로 스와이프</strong>합니다.<br>③ 현재 시간대에 맞는 <strong>자주 가는 장소(집/회사)</strong>가 자동으로 추천됩니다.<br>④ 추천 장소를 탭하면 바로 내비 안내가 시작됩니다.<br><strong>💡 TIP:</strong> 이 기능이 동작하려면 먼저 <strong>앱 > 위치</strong>에서 집/회사 주소가 저장되어 있어야 합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f22",cat:"nav",title:"경로 편집 — 경유지 삭제",how:"① 내비게이션으로 경로 안내가 진행 중일 때, 화면 하단에 <strong>경유지 목록</strong>이 표시됩니다.<br>② 삭제하고 싶은 경유지 주소를 <strong>2초 이상 길게 누르면</strong> 삭제 옵션이 나타납니다.<br>③ 또는 해당 경유지를 <strong>오른쪽으로 스와이프</strong>하면 바로 제거됩니다.<br><strong>💡 TIP:</strong> 충전소 경유 등 불필요해진 경유지를 빠르게 제거할 때 편리합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f23",cat:"nav",title:"슈퍼차저 상세 정보 확인",how:"① 화면 내비게이션 지도에서 <strong>빨간 번개 아이콘(⚡)</strong>으로 표시된 슈퍼차저를 찾습니다.<br>② 해당 <strong>슈퍼차저 아이콘을 탭</strong>합니다.<br>③ 상세 정보가 표시됩니다: <strong>사용 가능한 충전 스톨 수, 예상 대기시간, 충전 속도(kW)</strong> 등.<br>④ 아래로 스크롤하면 <strong>주변 편의시설</strong>(화장실, 쇼핑센터, 음식점 등)도 확인 가능합니다.<br><strong>💡 TIP:</strong> 장거리 여행 전 도착 예정 슈퍼차저의 혼잡도를 미리 확인하세요.",tags:["screen"],compat:"전 모델"},
+{id:"f24",cat:"nav",title:"네비게이션 AI 제안 기능",how:"① 이 기능은 <strong>별도 설정 없이 자동으로 동작</strong>합니다.<br>② 차량에 탑승하면 화면 상단에 <strong>자주 방문하는 장소가 자동 추천</strong>됩니다.<br>③ 출근 시간대에는 회사, 퇴근 시간대에는 집, 주말에는 자주 가는 장소가 제안됩니다.<br>④ 추천 장소를 탭하면 바로 내비 안내가 시작됩니다.<br><strong>💡 TIP:</strong> 차량 사용 패턴이 쌓일수록 추천 정확도가 높아집니다. 약 2~3주 사용 후 활성화됩니다.",tags:["screen"],compat:"전 모델"},
+{id:"f25",cat:"nav",title:"캘린더 연동 자동 내비",how:"① 먼저 스마트폰에서 <strong>Tesla 앱 > 설정 > 캘린더 동기화</strong>를 활성화합니다.<br>② 스마트폰 캘린더 앱에서 일정을 만들 때 <strong>위치(장소) 정보를 반드시 입력</strong>합니다.<br>③ 해당 일정 시간에 맞춰 차량에 탑승하면, <strong>캘린더 일정의 주소가 자동으로 내비에 설정</strong>됩니다.<br><strong>💡 TIP:</strong> 구글 캘린더, 애플 캘린더 모두 지원됩니다. 주소를 정확히 입력해야 연동됩니다.",tags:["app"],compat:"전 모델"},
+{id:"f26",cat:"nav",title:"구글맵/애플맵에서 주소 전송",how:"① 스마트폰에서 <strong>구글맵 또는 애플맵</strong>을 열고 목적지를 검색합니다.<br>② 검색 결과에서 <strong>공유 버튼</strong>(📤)을 탭합니다.<br>③ 공유 앱 목록에서 <strong>'Tesla'</strong>를 선택합니다.<br>④ 차량 내비게이션에 <strong>주소가 즉시 전송</strong>되어 탑승 시 바로 안내가 시작됩니다.<br><strong>💡 TIP:</strong> Tesla 앱이 설치되어 있어야 공유 목록에 나타납니다. 사전에 맛집이나 여행지를 검색해두면 편리합니다.",tags:["app"],compat:"전 모델"},
+{id:"f27",cat:"nav",title:"슈퍼차저 도착 전 배터리 예열",how:"① 내비게이션에서 <strong>슈퍼차저를 목적지(또는 경유지)로 설정</strong>합니다.<br>② 경로 안내가 시작되면 화면 하단에 <strong>'배터리 예열 중'</strong> 메시지가 자동으로 표시됩니다.<br>③ 도착 전 배터리를 <strong>최적 충전 온도로 미리 예열</strong>하여 충전 속도가 극대화됩니다.<br><strong>💡 TIP:</strong> 특히 겨울철에 효과가 큽니다. 예열 없이 충전하면 속도가 절반까지 떨어질 수 있습니다. 반드시 네비에서 슈퍼차저를 설정하세요.",tags:["screen"],compat:"전 모델"},
+{id:"f28",cat:"app",title:"차량 위치 나침반 표시",how:"① 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 메인 화면에 차량의 <strong>현재 위치가 지도에 표시</strong>됩니다.<br>③ 차량 아이콘 옆의 <strong>화살표 방향</strong>이 차가 향하고 있는 방향(나침반)을 나타냅니다.<br><strong>💡 TIP:</strong> 대형 주차장에서 차를 찾을 때, 차량 방향까지 알 수 있어 빠르게 찾을 수 있습니다.",tags:["app"],compat:"전 모델"},
+{id:"f29",cat:"app",title:"위치 전송 → 탑승 즉시 안내",how:"① 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 하단 메뉴에서 <strong>'위치'</strong> 탭을 탭합니다.<br>③ <strong>목적지를 검색</strong>한 후 <strong>'차량으로 전송'</strong> 버튼을 탭합니다.<br>④ 차량에 탑승하면 <strong>내비에 이미 목적지가 설정</strong>되어 있어 바로 안내가 시작됩니다.<br><strong>💡 TIP:</strong> 실내에서 미리 목적지를 설정해두면 탑승 후 바로 출발할 수 있어 편리합니다.",tags:["app"],compat:"전 모델"},
+{id:"f30",cat:"app",title:"시작 기능 (2분 긴급 운전)",how:"① 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 메인 화면 또는 <strong>보안 메뉴</strong>에서 <strong>'시작'</strong> 버튼을 찾습니다.<br>③ <strong>'시작'</strong>을 탭하면 키카드나 폰 키 없이 <strong>2분간 차량을 운행</strong>할 수 있습니다.<br>④ 2분 이내에 차량에 탑승하여 운전을 시작해야 합니다.<br><strong>💡 TIP:</strong> 폰 배터리가 없거나 키카드를 분실했을 때 긴급용으로 사용하세요. 다른 사람에게 차를 잠깐 맡길 때도 유용합니다.",tags:["app"],compat:"전 모델"},
+{id:"f31",cat:"app",title:"도어 해제 (겨울철 결빙 대비)",how:"① 겨울철 도어가 얼어서 열리지 않을 때, 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 메인 화면에서 <strong>자물쇠 아이콘(잠금 해제 버튼)</strong>을 탭합니다.<br>③ 잠금 해제를 <strong>2~3회 반복</strong>합니다. 전자식 래치가 반복 작동하면서 결빙된 도어를 풀어줍니다.<br><strong>💡 TIP:</strong> 무리하게 손잡이를 당기면 손잡이가 파손될 수 있습니다. 앱으로 래치를 반복 작동시키는 것이 안전합니다.",tags:["app"],compat:"전 모델"},
+{id:"f32",cat:"app",title:"원격 센트리 실시간 카메라",how:"① 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 메인 화면에서 <strong>'보안' 탭</strong>을 탭합니다.<br>③ <strong>'센트리 모드 라이브 카메라'</strong>를 탭하면 차량 주변 실시간 영상을 확인할 수 있습니다.<br>④ 화면 하단에서 <strong>경적 울리기, 전조등 깜빡이기, 외부 스피커 통화</strong>도 가능합니다.<br><strong>💡 TIP:</strong> 프리미엄 커넥티비티 구독이 필요합니다. 주차 중 차량 주변 상황이 궁금할 때 유용합니다.",tags:["app"],compat:"전 모델"},
+{id:"f33",cat:"app",title:"드라이버 프로필 추가 (가족 공유)",how:"① 스마트폰에서 <strong>Tesla 앱 > 보안 및 드라이버</strong>를 탭합니다.<br>② <strong>'드라이버 추가'</strong>를 선택합니다.<br>③ 가족 구성원의 Tesla 계정 이메일을 입력하여 <strong>드라이버로 초대</strong>합니다.<br>④ 각 드라이버마다 <strong>시트 위치, 사이드미러 각도, 음악 설정, 공조 온도</strong> 등이 자동으로 기억됩니다.<br><strong>💡 TIP:</strong> 폰 키로 누가 탑승하는지 자동 인식하므로, 매번 설정을 바꿀 필요가 없습니다.",tags:["app"],compat:"전 모델"},
+{id:"f34",cat:"app",title:"원격 공조/시동 예열",how:"① 스마트폰에서 <strong>Tesla 앱</strong>을 엽니다.<br>② 메인 화면의 <strong>공조(온도 아이콘)</strong>를 탭합니다.<br>③ 원하는 온도를 설정하고 <strong>'켜기'</strong> 버튼을 탭합니다.<br>④ 차량의 공조가 원격으로 작동하며, 탑승 전 실내가 쾌적한 온도가 됩니다.<br><strong>💡 TIP:</strong> 겨울에는 성에 제거 + 시트 히터도 함께 켜두면 탑승 즉시 따뜻합니다. 여름에는 출발 10분 전 냉방을 켜세요.",tags:["app"],compat:"전 모델"},
+{id:"f35",cat:"charge",title:"슈퍼차저 소변기 에티켓",how:"① 슈퍼차저 스톨은 <strong>1A-1B, 2A-2B</strong>처럼 같은 번호끼리 <strong>쌍(페어)</strong>을 이루고 있습니다.<br>② 같은 쌍의 두 스톨은 <strong>전력을 공유</strong>하기 때문에, 둘 다 사용 중이면 각각 충전 속도가 절반으로 줄어듭니다.<br>③ 비어있는 스톨이 많다면 <strong>이미 충전 중인 스톨의 쌍을 피해서</strong> 한 칸 이상 건너뛰고 충전하세요.<br><strong>💡 TIP:</strong> 예: 1A에 차가 있으면 1B 대신 2A나 3A를 선택하면 최대 충전 속도를 받을 수 있습니다.",tags:["physical"],compat:"전 모델"},
+{id:"f36",cat:"charge",title:"충전 포트 4가지 열기 방법",how:"충전 포트(충전구 뚜껑)를 여는 방법이 4가지 있습니다:<br>① <strong>차량 화면:</strong> 하단 바의 번개 아이콘(⚡) 탭 > '충전 포트 열기' 탭<br>② <strong>모바일 앱:</strong> Tesla 앱 > 충전 탭 > '충전 포트 열기' 버튼<br>③ <strong>차량 외부:</strong> 충전 포트 뚜껑을 <strong>직접 살짝 누르면</strong> 자동으로 열림<br>④ <strong>충전기:</strong> 슈퍼차저나 가정용 충전기의 <strong>버튼을 누르면</strong> 포트가 열림<br><strong>💡 TIP:</strong> 잠겨 있을 때는 차량이 잠금 해제된 상태여야 외부 터치로 열 수 있습니다.",tags:["physical","app","screen"],compat:"전 모델"},
+{id:"f37",cat:"charge",title:"충전 케이블 끼임 시 비상 해제",how:"① 충전 완료 후 충전 케이블이 <strong>빠지지 않는 경우</strong>가 발생할 수 있습니다.<br>② 이때 <strong>트렁크를 열고</strong>, 트렁크 내부 <strong>좌측 상단 안쪽벽</strong>을 확인합니다.<br>③ 트렁크 내벽 커버 뒤에 <strong>숨겨진 비상 해제 래치(당김줄)</strong>가 있습니다.<br>④ 이 <strong>래치를 아래로 당기면</strong> 충전 포트 잠금이 수동으로 해제되어 케이블을 뺄 수 있습니다.<br><strong>💡 TIP:</strong> 먼저 화면에서 충전 정지 후 시도하고, 그래도 안 빠지면 이 비상 해제를 사용하세요.",tags:["physical"],compat:"전 모델"},
+{id:"f38",cat:"charge",title:"충전 예약 (심야 전기 절약)",how:"① 화면 하단 바에서 <strong>번개 아이콘(⚡)</strong>을 탭하여 충전 메뉴를 엽니다.<br>② <strong>'예약'</strong> 탭을 선택합니다.<br>③ 충전 시작 시간을 <strong>심야 시간대(예: 밤 11시~아침 6시)</strong>로 설정합니다.<br>④ 충전기를 연결해두면 설정한 시간에 자동으로 충전이 시작됩니다.<br><strong>💡 TIP:</strong> 한국 가정용 전기는 심야(23시~09시) 요금이 저렴합니다. 예약 충전으로 전기료를 크게 절약하세요.",tags:["screen"],compat:"전 모델"},
+{id:"f39",cat:"charge",title:"충전 버튼 10회 빠르게 → 레인보우",how:"① 차량이 <strong>충전 중인 상태</strong>에서 진행합니다.<br>② 차량 외부 충전 포트의 <strong>버튼을 빠르게 연속 10회</strong> 누릅니다.<br>③ 성공하면 충전 포트의 <strong>테슬라 로고 LED가 무지개 색상</strong>으로 화려하게 빛납니다!<br><strong>💡 TIP:</strong> 이스터에그로, 실제 충전에는 영향이 없습니다. 테슬라 모임에서 보여주면 반응이 좋습니다 😄",tags:["physical","easter"],compat:"전 모델"},
+{id:"f40",cat:"comfort",title:"트렁크 높이 메모리 저장",how:"① 트렁크를 연 상태에서, <strong>원하는 높이까지 손으로 트렁크를 멈춥니다</strong>.<br>② 해당 위치에서 <strong>트렁크 내부 또는 외부의 닫기 버튼을 3초 이상 길게 누릅니다</strong>.<br>③ 삐 소리와 함께 해당 높이가 <strong>메모리에 저장</strong>됩니다.<br>④ 이후 트렁크를 열 때마다 저장된 높이까지만 자동으로 열립니다.<br><strong>💡 TIP:</strong> 천장이 낮은 지하 주차장에서 트렁크가 천장에 부딪히는 것을 방지합니다. 주차 환경이 바뀌면 다시 설정하세요.",tags:["physical"],compat:"전 모델"},
+{id:"f41",cat:"comfort",title:"프렁크 배수 플러그 & 쿨러 활용",how:"① Y 주니퍼의 <strong>프렁크(앞 트렁크) 바닥</strong>을 확인합니다.<br>② 바닥에 <strong>배수 플러그(고무 마개)</strong>가 있습니다.<br>③ 프렁크에 <strong>얼음과 음료를 넣어 아이스박스처럼 활용</strong>할 수 있습니다.<br>④ 사용 후 <strong>배수 플러그를 열면</strong> 녹은 물이 차 아래로 자연 배수됩니다.<br><strong>💡 TIP:</strong> 캠핑이나 피크닉 때 별도 아이스박스 없이 프렁크를 쿨러로 활용하세요. 사용 후 플러그를 다시 닫는 것을 잊지 마세요.",tags:["physical","juniper"],isNew:true,compat:"Y 주니퍼"},
+{id:"f42",cat:"comfort",title:"이퀄라이저 최적 셋팅",how:"① 화면 하단 바에서 <strong>미디어(음표 아이콘 🎵)</strong>를 탭합니다.<br>② 미디어 화면에서 <strong>이퀄라이저(EQ) 아이콘</strong>을 탭합니다.<br>③ <strong>밸런스</strong> 설정에서 포인트를 <strong>중앙에서 약간 뒤쪽(후석 방향)</strong>으로 이동합니다.<br>④ 이렇게 하면 운전석에서 <strong>음장감(사운드 스테이지)이 극대화</strong>되어 풍부한 음악을 즐길 수 있습니다.<br><strong>💡 TIP:</strong> 저음(Bass)을 약간 올리고, 고음(Treble)을 살짝 내리면 장거리 주행에 덜 피로합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f43",cat:"comfort",title:"세차 모드 (자동세차 대비)",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 서비스</strong> 메뉴로 이동합니다.<br>③ <strong>'세차 모드'</strong>를 ON으로 전환합니다.<br>④ 자동으로 다음이 비활성화됩니다: <strong>사이드미러 접힘, 와이퍼 자동 작동, 센트리 모드, 창문 잠금</strong>.<br>⑤ 자동세차기 이용 시 창문과 충전 포트가 닫혀 물 유입을 방지합니다.<br><strong>💡 TIP:</strong> 세차 완료 후 세차 모드를 반드시 OFF로 돌려놓으세요. 센트리 모드가 비활성 상태로 남을 수 있습니다.",tags:["screen"],compat:"전 모델"},
+{id:"f44",cat:"comfort",title:"트렁크 하단 숨겨진 수납공간",how:"① <strong>트렁크를 열고</strong> 트렁크 바닥의 매트를 확인합니다.<br>② 매트 중앙의 <strong>손잡이(또는 가장자리)를 잡고 위로 들어올립니다</strong>.<br>③ 매트 아래에 <strong>넓은 숨겨진 수납공간</strong>이 나타납니다.<br>④ 충전 케이블, 세차도구, 우산, 비상용품 등을 <strong>깔끔하게 수납</strong>할 수 있습니다.<br><strong>💡 TIP:</strong> 트렁크에 짐을 많이 실을 때도 이 공간을 활용하면 정리가 편리합니다.",tags:["physical"],compat:"전 모델"},
+{id:"f45",cat:"comfort",title:"전동식 뒷좌석 폴딩",how:"① <strong>트렁크를 열고</strong> 트렁크 내부 좌우 벽면을 확인합니다.<br>② 벽면에 <strong>뒷좌석 폴딩 버튼(좌석 모양 아이콘)</strong>이 있습니다.<br>③ 버튼을 누르면 <strong>뒷좌석 등받이가 전동으로 자동 접힙니다</strong>.<br>④ 다시 버튼을 누르면 등받이가 <strong>원래 위치로 자동 복원</strong>됩니다.<br><strong>💡 TIP:</strong> 대형 짐을 실을 때 트렁크에서 바로 뒷좌석을 접을 수 있어 편리합니다. 좌/우 독립 폴딩도 가능합니다.",tags:["physical","juniper"],isNew:true,compat:"Y 주니퍼"},
+{id:"f46",cat:"fun",title:"토이박스 — 레인보우 로드 + 앰비언트",how:"<strong>[방법 1] 토이박스에서 실행:</strong><br>① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② 앱 목록에서 <strong>'토이박스'</strong>를 찾아 탭합니다.<br>③ <strong>'Rainbow Road'</strong>를 선택하면 화면이 무지개 도로로 변하고 앰비언트 라이트가 연동됩니다.<br><br><strong>[방법 2] 오토파일럿 레버:</strong><br>① 주행 중 오토파일럿 스톡을 <strong>빠르게 4회 연속 당기면</strong> Rainbow Road가 활성화됩니다.<br><strong>💡 TIP:</strong> P(주차) 상태에서만 안전하게 즐기세요. 탑승자에게 보여주면 인기 만점!",tags:["easter"],compat:"전 모델"},
+{id:"f47",cat:"fun",title:"커스텀 잠김음 (LockChime.wav)",how:"① PC에서 원하는 소리를 <strong>WAV 형식, 1MB 미만</strong>으로 준비합니다.<br>② 파일명을 정확히 <strong>'LockChime.wav'</strong>로 변경합니다. (대소문자 주의)<br>③ USB 드라이브의 <strong>최상위 폴더(루트)</strong>에 해당 파일을 복사합니다.<br>④ USB를 차량에 연결한 뒤, 화면에서 <strong>토이박스 > 붐박스 > 잠금 소리 > USB</strong>를 선택합니다.<br>⑤ 이후 차량 잠금 시 커스텀 소리가 재생됩니다.<br><strong>💡 TIP:</strong> MP3는 지원되지 않으니 반드시 WAV 형식으로 변환하세요. 파일명 오타 시 인식되지 않습니다.",tags:["physical","easter"],compat:"전 모델"},
+{id:"f48",cat:"fun",title:"붐박스 — 외부 스피커 커스텀",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② 앱 목록에서 <strong>'토이박스'</strong>를 탭합니다.<br>③ <strong>'붐박스'</strong>를 선택합니다.<br>④ 경적음을 다양한 소리(염소, 아이스크림 트럭 등)로 변경하거나, <strong>외부 스피커로 음악·효과음을 재생</strong>할 수 있습니다.<br><strong>💡 TIP:</strong> 주차(P) 상태에서만 외부 스피커로 소리를 재생할 수 있습니다. 주행 중에는 비활성화됩니다.",tags:["screen","easter"],compat:"전 모델"},
+{id:"f49",cat:"fun",title:"방귀 모드 (Emissions Testing)",how:"① 화면에서 <strong>차량 아이콘(🚗) > 토이박스</strong>를 탭합니다.<br>② 토이박스 메뉴에서 <strong>방귀 쿠션 아이콘(💨)</strong>을 탭합니다.<br>③ <strong>원하는 좌석 위치</strong>를 선택합니다. (운전석, 조수석, 뒷좌석 등)<br>④ 방귀 소리가 해당 좌석 스피커에서 재생됩니다!<br>⑤ <strong>깜빡이 연동</strong> 옵션을 켜면 방향지시등을 킬 때마다 소리가 나옵니다.<br><strong>💡 TIP:</strong> 가족이나 친구에게 몰래 설정해두면 반응이 폭발적입니다 😆",tags:["easter"],compat:"전 모델"},
+{id:"f50",cat:"fun",title:"벽난로 모드 (로맨스 모드)",how:"① 화면에서 <strong>차량 아이콘(🚗) > 토이박스</strong>를 탭합니다.<br>② <strong>'벽난로(Fireplace)'</strong>를 선택합니다.<br>③ 화면에 <strong>장작이 타는 영상</strong>이 재생되고, 히터가 자동으로 연동됩니다.<br>④ 로맨틱한 음악도 함께 재생됩니다.<br><strong>💡 TIP:</strong> 차박(차에서 숙박)이나 캠핑 시 분위기를 내기에 좋습니다. 캠핑 모드와 함께 사용하면 공조+음악이 계속 유지됩니다.",tags:["easter"],compat:"전 모델"},
+{id:"f51",cat:"fun",title:"화성(Mars) 네비게이션 맵",how:"① 화면에서 <strong>차량 아이콘(🚗) > 토이박스</strong>를 탭합니다.<br>② <strong>'Mars(화성)'</strong>를 선택합니다.<br>③ 네비게이션 지도가 <strong>붉은 화성 표면</strong>으로 변합니다.<br>④ 앰비언트 라이트도 <strong>주황색·붉은색 계열</strong>로 자동 전환됩니다.<br><strong>💡 TIP:</strong> 실제 네비 기능은 정상 작동합니다. 시각적 변환만 적용되므로 주행에 지장이 없습니다.",tags:["easter"],compat:"전 모델"},
+{id:"f52",cat:"fun",title:"산타 모드 (크리스마스)",how:"<strong>[방법 1] 토이박스:</strong><br>① <strong>차량 아이콘(🚗) > 토이박스</strong>에서 산타 모드를 선택합니다.<br><br><strong>[방법 2] 음성 명령:</strong><br>① 핸들 우측 버튼을 누르고 <strong>'Ho Ho Ho'</strong>라고 말합니다.<br><br>② 활성화되면 차량 아이콘이 <strong>산타 썰매로 변하고</strong> 크리스마스 음악이 재생됩니다.<br>③ 앰비언트 라이트가 <strong>빨강·초록 크리스마스 색상</strong>으로 전환됩니다.<br><strong>💡 TIP:</strong> 12월이 아니어도 언제든 실행 가능합니다. 아이들에게 인기 만점!",tags:["easter"],compat:"전 모델"},
+{id:"f53",cat:"safety",title:"서비스 모드 진입 (히든 메뉴)",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 소프트웨어</strong> 메뉴로 이동합니다.<br>③ 화면에 표시된 <strong>차량 이미지 아래쪽</strong>에 'MODEL Y' (또는 MODEL 3/S/X) 글자가 있습니다.<br>④ 이 <strong>'MODEL' 글자를 2~4초 길게 누릅니다</strong>.<br>⑤ 비밀번호 입력창이 나타나면 <strong>'service'</strong>를 입력합니다.<br>⑥ 서비스 이력, 경고 로그, 센서 상태 등을 확인할 수 있습니다.<br><strong style='color:var(--red)'>⚠️ 주의: 소프트웨어 재설치나 공장 초기화 메뉴는 절대 건드리지 마세요! 차량에 문제가 생길 수 있습니다.</strong>",tags:["screen"],compat:"전 모델"},
+{id:"f54",cat:"safety",title:"PIN to Drive (도난 방지)",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 안전</strong> 메뉴로 이동합니다.<br>③ <strong>'PIN to Drive'</strong>를 ON으로 전환합니다.<br>④ 원하는 <strong>4자리 PIN 번호</strong>를 설정합니다.<br>⑤ 이후 차량을 운전하려면 매번 <strong>PIN 입력이 필요</strong>합니다.<br><strong>💡 TIP:</strong> 폰 키로 문은 열 수 있어도, PIN을 모르면 주행이 불가능하므로 도난 방지 효과가 높습니다.",tags:["screen"],compat:"전 모델"},
+{id:"f55",cat:"safety",title:"글러브박스 PIN 잠금",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 안전</strong> 메뉴로 이동합니다.<br>③ <strong>'글러브박스 PIN'</strong> 항목을 찾아 ON으로 전환합니다.<br>④ <strong>4자리 PIN</strong>을 설정하면, 글러브박스를 열 때마다 PIN 입력이 필요합니다.<br><strong>💡 TIP:</strong> 차량 등록증, 귀중품 등을 글러브박스에 보관할 때 유용합니다. 발렛 파킹 시 특히 추천합니다.",tags:["screen"],compat:"전 모델"},
+{id:"f56",cat:"safety",title:"소프트 리셋 (화면 먹통 시)",how:"① 화면이 멈추거나 반응하지 않을 때 사용합니다.<br>② 핸들의 <strong>좌측 스크롤 휠</strong>과 <strong>우측 스크롤 휠</strong>을 동시에 찾습니다.<br>③ <strong>양쪽 스크롤 휠을 동시에 15초 이상 꾹 누르고 있습니다</strong>.<br>④ 화면이 꺼졌다가 <strong>테슬라 로고가 나타나며 재부팅</strong>됩니다.<br>⑤ 약 30초~1분 후 화면이 정상 복원됩니다.<br><strong>💡 TIP:</strong> 주행 중에도 안전하게 실행 가능합니다. 차량 주행에는 영향 없이 디스플레이만 재부팅됩니다.",tags:["physical"],compat:"전 모델"},
+{id:"f57",cat:"safety",title:"하드 리셋 (전체 전자장치)",how:"① <strong>반드시 차량을 완전히 정차</strong>시킨 상태에서 진행합니다.<br>② <strong>브레이크 페달</strong>을 꾹 밟은 상태를 유지합니다.<br>③ 동시에 핸들의 <strong>양쪽 스크롤 휠도 길게 누릅니다</strong>. (브레이크 + 양쪽 스크롤 휠 3개 동시)<br>④ <strong>15초 이상 유지</strong>하면 전체 전자장치가 재시작됩니다.<br>⑤ 계기판, 에어컨, 모든 전자 시스템이 재부팅되며 약 2~3분 소요됩니다.<br><strong>💡 TIP:</strong> 소프트 리셋으로 해결되지 않는 문제(센서 오류 등)가 있을 때만 사용하세요. 반드시 정차 상태에서 실행하세요.",tags:["physical"],compat:"전 모델"},
+{id:"f58",cat:"safety",title:"대시캠 USB 자동 녹화",how:"① <strong>USB 드라이브</strong>를 차량의 USB 포트(글러브박스 내부 또는 센터콘솔)에 연결합니다.<br>② 화면 상단에 <strong>카메라 아이콘(📷)</strong>이 나타나면 녹화가 활성화된 것입니다.<br>③ 주행 중 <strong>전방·후방·양측면 카메라가 자동으로 녹화</strong>됩니다. (블랙박스 기능)<br>④ 사고 등 중요한 순간에 <strong>카메라 아이콘을 탭하면 해당 영상이 즉시 저장</strong>됩니다.<br>⑤ 저장된 영상은 화면에서 <strong>카메라 아이콘 > 대시캠 뷰어</strong>에서 확인 가능합니다.<br><strong>💡 TIP:</strong> 최소 32GB 이상의 USB를 권장합니다. 포맷 형식은 exFAT가 권장됩니다.",tags:["physical"],compat:"전 모델"},
+{id:"f59",cat:"safety",title:"센트리 모드 (주차 감시)",how:"① 화면 하단 바에서 <strong>차량 아이콘(🚗)</strong>을 탭합니다.<br>② <strong>컨트롤 > 안전</strong> 메뉴로 이동합니다.<br>③ <strong>'센트리 모드'</strong>를 ON으로 전환합니다.<br>④ 주차 중 차량 주변에 <strong>움직임이 감지되면 카메라로 녹화</strong>하고, 가까이 접근하면 <strong>경고음</strong>이 울립니다.<br>⑤ 모바일 앱에서 <strong>실시간 카메라</strong>로 상황을 확인할 수도 있습니다.<br><strong>💡 TIP:</strong> 센트리 모드는 배터리를 소모하므로 자택 주차 시에는 OFF로 설정하고, 외부 주차 시에만 ON으로 사용하는 것이 효율적입니다.",tags:["screen","app"],compat:"전 모델"},
+{id:"f60",cat:"safety",title:"어댑티브 헤드램프",how:"① 이 기능은 <strong>별도 설정 없이 자동으로 동작</strong>합니다.<br>② 야간 주행 시 핸들을 꺾으면 <strong>전조등이 조향 방향으로 자동으로 회전</strong>합니다.<br>③ 코너나 교차로 진입 시 <strong>진행 방향을 미리 비춰줘</strong> 시인성이 크게 향상됩니다.<br><strong>💡 TIP:</strong> 산길이나 골목길 야간 주행에서 특히 효과적입니다. 소프트웨어 업데이트로 성능이 계속 개선되고 있습니다.",tags:["juniper"],isNew:true,compat:"3 하이랜드 · Y 주니퍼"},
+{id:"f61",cat:"safety",title:"카메라 자동 세척 시스템",how:"① 이 기능은 <strong>별도 조작 없이 자동으로 동작</strong>합니다.<br>② 전면 범퍼에 위치한 카메라에 <strong>자동 세척 노즐</strong>이 내장되어 있습니다.<br>③ 비·눈·먼지 등으로 카메라가 더러워지면 <strong>자동으로 세척액을 분사</strong>하여 렌즈를 깨끗하게 유지합니다.<br>④ 오토파일럿·센트리 모드 등 <strong>카메라 의존 기능의 정확도가 항상 유지</strong>됩니다.<br><strong>💡 TIP:</strong> 워셔액이 부족하면 세척 기능이 작동하지 않으므로, 정기적으로 워셔액 잔량을 확인하세요.",tags:["juniper"],isNew:true,compat:"Y 주니퍼"}
+];
+
+const COMPAT_OPTIONS=["전 모델","Y 주니퍼","3 하이랜드 · Y 주니퍼","3 하이랜드 · Y 주니퍼 · S · X","S · X · Y (3 미지원)","S · X 전용"];
+
+const TAG_MAP={screen:{label:'터치스크린',cls:'tag-screen'},app:{label:'모바일앱',cls:'tag-app'},voice:{label:'음성명령',cls:'tag-voice'},physical:{label:'물리조작',cls:'tag-physical'},easter:{label:'이스터에그',cls:'tag-easter'},juniper:{label:'NEW',cls:'tag-juniper'}};
+
+let features=[...DEFAULT_FEATURES];
+let activeFilter='all';
+let searchTerm='';
+let adminTab='add';
+let editId=null;
+let sortMode='default';
+let changelog=[];
+
+// Storage
+async function loadData(){
+try{const r=await window.storage.get('tesla-features');if(r&&r.value){features=JSON.parse(r.value)}}catch(e){features=[...DEFAULT_FEATURES]}
+try{const r=await window.storage.get('tesla-changelog');if(r&&r.value){changelog=JSON.parse(r.value)}}catch(e){changelog=[]}
+}
+async function saveData(){try{await window.storage.set('tesla-features',JSON.stringify(features))}catch(e){}}
+async function saveChangelog(){try{await window.storage.set('tesla-changelog',JSON.stringify(changelog))}catch(e){}}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function genId(){return 'f'+Date.now()+Math.random().toString(36).substr(2,4)}
+
+function updateStats(){
+document.getElementById('totalCount').textContent=features.length;
+}
+
+function renderFilters(){
+const c=document.getElementById('filterTabs');
+c.innerHTML=CATEGORIES.map(cat=>{
+const cnt=cat.id==='all'?features.length:features.filter(f=>f.cat===cat.id).length;
+return `<button class="filter-btn ${cat.id===activeFilter?'active':''}" data-cat="${cat.id}">${cat.icon||''}${cat.name} <span class="count">${cnt}</span></button>`;
+}).join('');
+c.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.cat;renderFilters();renderContent()}));
+}
+
+function stripHtml(s){return (s||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').toLowerCase()}
+
+function renderContent(){
+const main=document.getElementById('mainContent');
+let filtered=features.filter(f=>{
+const cm=activeFilter==='all'||f.cat===activeFilter;
+const sm=!searchTerm||
+  f.title.toLowerCase().includes(searchTerm)||
+  stripHtml(f.how).includes(searchTerm)||
+  (f.compat||'').toLowerCase().includes(searchTerm)||
+  f.tags.some(t=>(TAG_MAP[t]||{}).label&&TAG_MAP[t].label.toLowerCase().includes(searchTerm));
+return cm&&sm;
+});
+if(sortMode==='new'){filtered=[...filtered].sort((a,b)=>(b.isNew?1:0)-(a.isNew?1:0))}
+else if(sortMode==='compat'){filtered=[...filtered].sort((a,b)=>{const al=a.compat&&a.compat!=='전 모델'?0:1;const bl=b.compat&&b.compat!=='전 모델'?0:1;return al-bl})}
+else if(sortMode==='alpha'){filtered=[...filtered].sort((a,b)=>a.title.localeCompare(b.title,'ko'))}
+const isSorted=sortMode!=='default';
+const grouped={};filtered.forEach(f=>{if(!grouped[f.cat])grouped[f.cat]=[];grouped[f.cat].push(f)});
+const order=CATEGORIES.filter(c=>c.id!=='all').map(c=>c.id);
+let html='';
+if(isSorted&&filtered.length){
+const sortLabel={new:'NEW 먼저',compat:'호환 제한 먼저',alpha:'ㄱㄴㄷ순'}[sortMode];
+html+=`<div class="category-section"><div class="cat-header"><div class="cat-title">${sortLabel}</div><div class="cat-count">${filtered.length}개</div></div><div class="cards-grid">${filtered.map(f=>renderCard(f)).join('')}</div></div>`;
+}else if(activeFilter!=='all'){const cat=CATEGORIES.find(c=>c.id===activeFilter);html+=renderCatSection(cat,grouped[activeFilter]||[])}
+else order.forEach(cid=>{if(grouped[cid]){const cat=CATEGORIES.find(c=>c.id===cid);html+=renderCatSection(cat,grouped[cid])}});
+if(!filtered.length)html=`<div style="text-align:center;padding:50px 20px;color:var(--text2)"><div style="font-size:40px;margin-bottom:12px">🔍</div>검색 결과가 없습니다</div>`;
+main.innerHTML=html;
+main.querySelectorAll('.card').forEach(card=>{
+card.querySelector('.card-top').addEventListener('click',()=>card.classList.toggle('expanded'));
+if(searchTerm)card.classList.add('expanded');
+});
+}
+
+function renderCard(f){
+const idx=features.indexOf(f)+1;
+const isLimited=f.compat&&f.compat!=='전 모델';
+return `<div class="card"><div class="card-top"><div class="card-num">${idx}</div><div class="card-title">${f.title}</div>${f.isNew?'<span class="card-new">NEW</span>':''}<div class="card-expand-icon">▾</div></div><div class="card-compat ${isLimited?'limited':''}">📍 ${f.compat||'전 모델'}</div><div class="card-detail"><div class="card-how">${f.how||''}</div><div class="card-tags" style="margin-top:10px">${f.tags.map(t=>{const info=TAG_MAP[t]||{label:t,cls:''};return `<span class="tag ${info.cls}">${info.label}</span>`}).join('')}</div></div></div>`;
+}
+
+function renderCatSection(cat,items){
+return `<div class="category-section"><div class="cat-header"><div class="cat-icon-wrap">${cat.icon||''}</div><div class="cat-title">${cat.name}</div><div class="cat-count">${items.length}</div><div class="cat-line"></div></div><div class="cards-grid">${items.map(f=>renderCard(f)).join('')}</div></div>`;
+}
+
+// Admin
+const ADMIN_PW='2121';
+let adminUnlocked=false;
+function openAdmin(){
+if(!adminUnlocked){
+const pw=prompt('관리자 비밀번호를 입력하세요');
+if(pw!==ADMIN_PW){if(pw!==null)showToast('비밀번호가 틀렸습니다');return}
+adminUnlocked=true;
+}
+document.getElementById('adminOverlay').classList.add('open');document.getElementById('adminToggle').classList.add('active');renderAdmin()}
+function closeAdmin(){document.getElementById('adminOverlay').classList.remove('open');document.getElementById('adminToggle').classList.remove('active');editId=null}
+
+function renderAdmin(){
+const c=document.getElementById('adminContent');
+document.querySelectorAll('.admin-tab').forEach(t=>{t.classList.toggle('active',t.dataset.tab===adminTab);t.onclick=()=>{adminTab=t.dataset.tab;renderAdmin()}});
+if(adminTab==='add')renderAddForm(c);
+else if(adminTab==='list')renderList(c);
+else if(adminTab==='ota')renderOtaAdmin(c);
+else renderExport(c);
+}
+
+function renderAddForm(c){
+const f=editId?features.find(x=>x.id===editId):null;
+const allTags=Object.keys(TAG_MAP);
+c.innerHTML=`
+<div class="form-group"><div class="form-label">기능 제목 *</div><input class="form-input" id="fTitle" value="${f?f.title:''}" placeholder="예: 음성 명령으로 창문 열기"></div>
+<div class="form-group"><div class="form-label">카테고리 *</div><select class="form-select" id="fCat">${CATEGORIES.filter(x=>x.id!=='all').map(x=>`<option value="${x.id}" ${f&&f.cat===x.id?'selected':''}>${x.icon} ${x.name}</option>`).join('')}</select></div>
+<div class="form-group"><div class="form-label">호환 모델</div><select class="form-select" id="fCompat">${COMPAT_OPTIONS.map(o=>`<option value="${o}" ${f&&f.compat===o?'selected':''}>${o}</option>`).join('')}<option value="_custom" ${f&&f.compat&&!COMPAT_OPTIONS.includes(f.compat)?'selected':''}>직접 입력</option></select></div>
+<div class="form-group" id="fCompatCustomWrap" style="display:none"><div class="form-label">호환 모델 직접 입력</div><input class="form-input" id="fCompatCustom" value="${f&&f.compat&&!COMPAT_OPTIONS.includes(f.compat)?f.compat:''}" placeholder="예: 3 · Y (S·X 미지원)"></div>
+<div class="form-group"><div class="form-label">사용법 (HTML 가능)</div><textarea class="form-textarea" id="fHow" placeholder="<strong>굵게</strong> 태그 사용 가능">${f?f.how:''}</textarea></div>
+<div class="form-group"><div class="form-label">태그</div><div class="checkbox-group" id="fTags">${allTags.map(t=>`<label class="checkbox-item ${f&&f.tags.includes(t)?'checked':''}"><input type="checkbox" value="${t}" ${f&&f.tags.includes(t)?'checked':''}>${TAG_MAP[t].label}</label>`).join('')}</div></div>
+<div class="new-toggle"><input type="checkbox" id="fNew" ${f&&f.isNew?'checked':''}><label for="fNew">NEW 표시</label></div>
+<div class="btn-row"><button class="btn btn-primary" id="fSave">${f?'수정 완료':'기능 추가'}</button>${f?'<button class="btn btn-secondary" id="fCancel">취소</button>':''}</div>`;
+c.querySelectorAll('.checkbox-item').forEach(ci=>ci.addEventListener('click',()=>{const cb=ci.querySelector('input');cb.checked=!cb.checked;ci.classList.toggle('checked',cb.checked)}));
+const compatSel=document.getElementById('fCompat');
+const customWrap=document.getElementById('fCompatCustomWrap');
+compatSel.onchange=()=>{customWrap.style.display=compatSel.value==='_custom'?'block':'none'};
+if(f&&f.compat&&!COMPAT_OPTIONS.includes(f.compat))customWrap.style.display='block';
+document.getElementById('fSave').onclick=saveFeature;
+if(f)document.getElementById('fCancel').onclick=()=>{editId=null;renderAdmin()};
+}
+
+function saveFeature(){
+const title=document.getElementById('fTitle').value.trim();
+const cat=document.getElementById('fCat').value;
+const how=document.getElementById('fHow').value.trim();
+const tags=[...document.querySelectorAll('#fTags input:checked')].map(x=>x.value);
+const isNew=document.getElementById('fNew').checked;
+const compatSel=document.getElementById('fCompat').value;
+const compat=compatSel==='_custom'?document.getElementById('fCompatCustom').value.trim():compatSel;
+if(!title){showToast('제목을 입력하세요');return}
+if(editId){const idx=features.findIndex(f=>f.id===editId);if(idx>=0){features[idx]={...features[idx],title,cat,how,tags,isNew,compat};showToast('수정 완료');editId=null}}
+else{features.push({id:genId(),cat,title,how,tags,isNew,compat:compat||'전 모델'});showToast('기능 추가 완료')}
+saveData();updateStats();renderFilters();renderContent();renderAdmin();
+}
+
+function renderList(c){
+c.innerHTML=`<input class="admin-search" id="adminSearchInput" placeholder="기능 검색..."><div class="admin-list" id="adminList"></div>`;
+const renderItems=(q='')=>{
+const list=document.getElementById('adminList');
+const items=features.filter(f=>!q||f.title.toLowerCase().includes(q.toLowerCase()));
+list.innerHTML=items.map(f=>{
+const catInfo=CATEGORIES.find(x=>x.id===f.cat)||{icon:'',name:''};
+return `<div class="admin-item"><div class="admin-item-title">${f.title}</div>${f.compat&&f.compat!=='전 모델'?`<span style="font-size:9px;color:var(--red);background:var(--red-dim);padding:1px 5px;border-radius:4px">${f.compat}</span>`:''}${f.isNew?'<span class="card-new" style="font-size:9px">NEW</span>':''}<button class="admin-item-btn" data-edit="${f.id}" title="수정">✎</button><button class="admin-item-btn delete" data-del="${f.id}" title="삭제">✕</button></div>`;
+}).join('')||'<div style="text-align:center;padding:20px;color:var(--text2)">결과 없음</div>';
+list.querySelectorAll('[data-edit]').forEach(b=>b.onclick=(e)=>{e.stopPropagation();editId=b.dataset.edit;adminTab='add';renderAdmin()});
+list.querySelectorAll('[data-del]').forEach(b=>b.onclick=(e)=>{e.stopPropagation();if(confirm('이 기능을 삭제하시겠습니까?')){features=features.filter(f=>f.id!==b.dataset.del);saveData();updateStats();renderFilters();renderContent();renderItems(document.getElementById('adminSearchInput').value);showToast('삭제 완료')}});
+};
+renderItems();
+document.getElementById('adminSearchInput').oninput=e=>renderItems(e.target.value);
+}
+
+function renderExport(c){
+const exportData={features,changelog};
+c.innerHTML=`
+<div class="form-label" style="margin-bottom:8px">내보내기 (복사하여 저장하세요)</div>
+<div class="export-area"><textarea id="exportArea" readonly>${JSON.stringify(exportData,null,1)}</textarea></div>
+<div class="btn-row"><button class="btn btn-secondary" id="copyBtn">복사</button></div>
+<div style="margin-top:20px"><div class="form-label" style="margin-bottom:8px">가져오기 (JSON 붙여넣기)</div>
+<div class="export-area"><textarea id="importArea" placeholder='{"features":[...],"changelog":[...]}'></textarea></div>
+<div class="btn-row"><button class="btn btn-primary" id="importBtn">가져오기</button><button class="btn btn-danger" id="resetBtn">기본값 초기화</button></div></div>`;
+document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(document.getElementById('exportArea').value).then(()=>showToast('클립보드에 복사됨'))};
+document.getElementById('importBtn').onclick=()=>{try{const d=JSON.parse(document.getElementById('importArea').value);if(d.features&&Array.isArray(d.features)){features=d.features;saveData();if(d.changelog){changelog=d.changelog;saveChangelog()}updateStats();renderFilters();renderContent();renderOtaBanner();showToast('가져오기 완료')}else if(Array.isArray(d)){features=d;saveData();updateStats();renderFilters();renderContent();showToast('기능 가져오기 완료 ('+d.length+'개)')}}catch(e){showToast('JSON 형식이 올바르지 않습니다')}};
+document.getElementById('resetBtn').onclick=()=>{if(confirm('모든 수정사항이 초기화됩니다. 계속하시겠습니까?')){features=[...DEFAULT_FEATURES];changelog=[];saveData();saveChangelog();updateStats();renderFilters();renderContent();renderOtaBanner();showToast('기본값 초기화 완료')}};
+}
+
+function renderOtaAdmin(c){
+const today=new Date().toISOString().split('T')[0];
+c.innerHTML=`
+<div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+<div class="form-label" style="margin-bottom:8px">새 업데이트 기록 추가</div>
+<div class="form-group"><input class="form-input" id="otaDate" type="date" value="${today}"></div>
+<div class="form-group"><select class="form-select" id="otaType"><option value="added">추가</option><option value="modified">변경</option><option value="removed">삭제</option></select></div>
+<div class="form-group"><input class="form-input" id="otaDesc" placeholder="예: 공조 스윙 모드 추가 (Y 주니퍼)"></div>
+<div class="form-group"><input class="form-input" id="otaLink" placeholder="링크 (선택사항, 예: https://...)"></div>
+<button class="btn btn-primary" id="otaAdd">기록 추가</button>
+</div>
+<div class="form-label" style="margin-bottom:8px">업데이트 이력 (${changelog.length}건)</div>
+<div class="admin-list" id="otaList">${changelog.length?changelog.map((e,i)=>`<div class="admin-item"><span class="ota-date">${e.date}</span><span class="ota-type ${e.type}">${e.type==='added'?'추가':e.type==='modified'?'변경':'삭제'}</span><div class="admin-item-title">${e.desc}${e.link?` <a href="${e.link}" target="_blank" style="color:var(--blue);font-size:11px" onclick="event.stopPropagation()">↗</a>`:''}</div><button class="admin-item-btn delete" data-ota="${i}" title="삭제">✕</button></div>`).join(''):'<div style="text-align:center;padding:20px;color:var(--text2)">아직 기록이 없습니다</div>'}</div>`;
+document.getElementById('otaAdd').onclick=()=>{
+const date=document.getElementById('otaDate').value;
+const type=document.getElementById('otaType').value;
+const desc=document.getElementById('otaDesc').value.trim();
+const link=document.getElementById('otaLink').value.trim();
+if(!desc){showToast('내용을 입력하세요');return}
+const entry={date,type,desc};
+if(link)entry.link=link;
+changelog.unshift(entry);
+saveChangelog();renderOtaAdmin(c);renderOtaBanner();showToast('OTA 기록 추가됨');
+};
+c.querySelectorAll('[data-ota]').forEach(b=>b.onclick=(e)=>{e.stopPropagation();changelog.splice(parseInt(b.dataset.ota),1);saveChangelog();renderOtaAdmin(c);renderOtaBanner();showToast('기록 삭제됨')});
+}
+
+function renderOtaBanner(){
+const container=document.getElementById('otaBanner');
+if(!changelog.length){container.innerHTML='';return}
+const recent=changelog.slice(0,5);
+container.innerHTML=`<div class="ota-card" id="otaCard">
+<div class="ota-card-header"><span class="ota-dot"></span>최근 업데이트 <span style="color:var(--text3);font-weight:400;font-size:12px;margin-left:4px">${changelog[0].date}</span><span class="expand-hint">탭하여 ${changelog.length>1?changelog.length+'건 보기':'펼치기'} ▾</span></div>
+<div class="ota-card-body">${recent.map(e=>`<div class="ota-entry"><span class="ota-date">${e.date}</span><span class="ota-type ${e.type}">${e.type==='added'?'추가':e.type==='modified'?'변경':'삭제'}</span><span class="ota-desc">${e.desc}${e.link?` <a href="${e.link}" target="_blank" style="color:var(--blue);text-decoration:none" onclick="event.stopPropagation()">🔗 자세히</a>`:''}</span></div>`).join('')}${changelog.length>5?`<div style="text-align:center;padding:8px;color:var(--text3);font-size:11px">외 ${changelog.length-5}건 더...</div>`:''}</div>
+</div>`;
+document.getElementById('otaCard').addEventListener('click',()=>document.getElementById('otaCard').classList.toggle('open'));
+}
+
+// Init
+async function init(){
+await loadData();
+if(!features.length)features=[...DEFAULT_FEATURES];
+updateStats();renderFilters();renderContent();renderOtaBanner();
+document.getElementById('searchInput').oninput=e=>{searchTerm=e.target.value.toLowerCase().trim();renderContent()};
+const filterScroll=document.getElementById('filterTabs');
+const scrollArrow=document.getElementById('scrollArrow');
+const filterWrap=document.getElementById('filterWrap');
+scrollArrow.addEventListener('click',()=>{filterScroll.scrollBy({left:200,behavior:'smooth'})});
+filterScroll.addEventListener('scroll',()=>{
+const atEnd=filterScroll.scrollLeft+filterScroll.clientWidth>=filterScroll.scrollWidth-10;
+if(atEnd){scrollArrow.style.opacity='0';setTimeout(()=>{scrollArrow.style.display='none'},300);filterWrap.classList.add('scrolled-end')}
+else{scrollArrow.style.opacity='1';scrollArrow.style.display='flex';filterWrap.classList.remove('scrolled-end')}
+},{passive:true});
+document.getElementById('adminToggle').onclick=openAdmin;
+document.getElementById('adminClose').onclick=closeAdmin;
+document.getElementById('adminOverlay').onclick=e=>{if(e.target===e.currentTarget)closeAdmin()};
+document.querySelectorAll('.sort-btn').forEach(b=>b.addEventListener('click',()=>{
+document.querySelectorAll('.sort-btn').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');sortMode=b.dataset.sort;renderContent();
+}));
+}
+init();
+</script>
+</body>
+</html>
